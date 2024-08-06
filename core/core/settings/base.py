@@ -108,23 +108,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-AUTH_USER_MODEL = "account.User"
+# AUTH_USER_MODEL = "account.User"
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3.S3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": 'storages.backends.s3boto3.S3Boto3Storage',
-    },
-}
-
+STATIC_ROOT = "static_root/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
@@ -134,20 +125,20 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-import sys
+# import sys
 
-if sys.argv[1:2] == ["test"]:
-    import logging
+# if sys.argv[1:2] == ["test"]:
+#     import logging
 
-    logging.disable(logging.CRITICAL)
-    ALLOWED_HOSTS = ["*"]
-    DEBUG = False
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.memory.InMemoryStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        },
-    }
+#     logging.disable(logging.CRITICAL)
+#     ALLOWED_HOSTS = ["*"]
+#     DEBUG = False
+#     STORAGES = {
+#         "default": {
+#             "BACKEND": "django.core.files.storage.memory.InMemoryStorage",
+#         },
+#         "staticfiles": {
+#             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#         },
+#     }
     
