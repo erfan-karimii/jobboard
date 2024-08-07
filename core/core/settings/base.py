@@ -20,7 +20,7 @@ LOCAL_APPS = [
     "account.apps.AccountConfig",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular"]
+THIRD_PARTY_APPS = ["rest_framework","rest_framework.authtoken","drf_spectacular"]
 
 
 INSTALLED_APPS = [
@@ -108,7 +108,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL = "account.User"
 
 
 # Static files (CSS, JavaScript, Images)

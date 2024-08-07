@@ -4,7 +4,8 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
-# Create your models here.
+
+
 class UserManager(BaseUserManager):
     def create_user(self, email,**extra_fields):
         if not email:
