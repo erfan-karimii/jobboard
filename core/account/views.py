@@ -21,7 +21,6 @@ class CustomerLoginView(ObtainAuthToken):
         email = serializer.validated_data["email"]
         token, _ = Token.objects.get_or_create(user=user)
         
-        # TODO: send token with email
         host_name = request.get_host()
         admin_email = "admin@admin.com"
         send_mail(
