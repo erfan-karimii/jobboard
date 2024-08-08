@@ -1,4 +1,5 @@
 from django.core.mail import send_mail
+from rest_framework.parsers import JSONParser
 
 from rest_framework import status
 from rest_framework.views import APIView,Response
@@ -10,6 +11,7 @@ from account.serializers import CustomAuthSerializer
 
 class CustomerLoginView(ObtainAuthToken):
     serializer_class = CustomAuthSerializer
+    parser_classes = [JSONParser]
 
     @extend_schema(responses=CustomAuthSerializer)
     def post(self, request, *args, **kwargs):
