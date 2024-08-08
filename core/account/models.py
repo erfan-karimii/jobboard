@@ -5,13 +5,20 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+class Role(models.Model):
+    role = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.role
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email,**extra_fields):
         if not email:
             raise ValueError("The Email must be set")
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user_role, _ = Role.objects.get_or_create(role = 'user')
+        user = self.model(email=email, role=user_role,**extra_fields)
         user.set_unusable_password()
         user.save()
         return user
@@ -32,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     Custom User Model
     """
-
+    role = models.ForeignKey(Role,on_delete=models.PROTECT)
     email = models.EmailField(max_length=254, unique=True)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -59,3 +66,14 @@ class UserProfile(models.Model):
 
     def __str__(self) -> str:
         return self.user.email + "//" + self.fullname
+
+class CompanyProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    name = models.CharField(max_length=100, unique=True)
+    logo = models.ImageField(null=True,blank=True)
+    info = models.TextField()
+    employee_number = models.IntegerField()
+
+
+    def __str__(self):
+        return self.user.email+"  " + self.user.role + " " + self.name
