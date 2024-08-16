@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     Custom User Model
     """
     role = models.ForeignKey(Role,on_delete=models.PROTECT)
-    email = models.EmailField(max_length=254, unique=True)
+    email = models.EmailField(max_length=254, unique=True,db_index=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
