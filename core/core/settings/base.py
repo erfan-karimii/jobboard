@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
-SECRET_KEY = config("SECRET_KEY", default="test"),
+SECRET_KEY ="django-insecure-y+n@&gn3+&esh2zfp1(f7uczk8j)0yvdsj*zuu_(3zys%04bkh"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = config(
@@ -20,7 +20,7 @@ LOCAL_APPS = [
     "account.apps.AccountConfig",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework","rest_framework.authtoken","drf_spectacular"]
+THIRD_PARTY_APPS = ["rest_framework","drf_spectacular",'rest_framework_simplejwt']
 
 
 INSTALLED_APPS = [
@@ -120,7 +120,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
