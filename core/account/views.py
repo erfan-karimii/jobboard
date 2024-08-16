@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 
-from rest_framework import status
+from rest_framework import status , serializers
 from rest_framework.views import APIView,Response
 
 from drf_spectacular.utils import extend_schema , OpenApiResponse, OpenApiExample,inline_serializer
@@ -23,7 +23,7 @@ class CustomerLoginView(APIView):
         operation_id="login user",
         responses={
             200: OpenApiResponse(
-                response=CustomAuthSerializer,
+                response=inline_serializer(name='CustomerLoginSerializer',fields={'Accept request':serializers.CharField()}),
                 description="A successful response with a message.",
                 examples=[
                     OpenApiExample(
