@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, UserProfile
+from .models import User, UserProfile,Role
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
@@ -7,7 +7,7 @@ from django.contrib.auth.admin import UserAdmin
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    list_display = ("email", "is_superuser", "is_active",)
+    list_display = ("email", "role","is_superuser")
     list_filter = (
         "email",
         "is_superuser",
@@ -29,12 +29,12 @@ class CustomUserAdmin(UserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
-                )
+                    "role"                    
+                ),
             },
         ),
         ("group permissions", {"fields": ("groups", "user_permissions")}),
         ("date", {"fields": ("last_login",)}),
-        ("Token", {"fields": ("Token",)}),
     )
     add_fieldsets = (
         (
@@ -48,6 +48,7 @@ class CustomUserAdmin(UserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
+                    "role",
                 ),
             },
         ),
@@ -57,3 +58,4 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserProfile)
 
+admin.site.register(Role)
