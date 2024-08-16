@@ -9,7 +9,6 @@ class CustomUserAdmin(UserAdmin):
     model = User
     list_display = ("email", "role","is_superuser")
     list_filter = (
-        "email",
         "is_superuser",
         "is_active",
     )
