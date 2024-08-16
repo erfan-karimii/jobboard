@@ -19,7 +19,8 @@ class CustomerLoginView(APIView):
     parser_classes = [JSONParser]
 
     @extend_schema(
-        request=CustomAuthSerializer, 
+        request=CustomAuthSerializer,
+        operation_id="login user",
         responses={
             200: OpenApiResponse(
                 response=CustomAuthSerializer,
