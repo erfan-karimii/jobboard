@@ -1,9 +1,6 @@
 from django.core.mail import send_mail
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAuthenticatedCustomer
-from rest_framework import status
-
 from rest_framework import status , serializers
 from rest_framework.views import APIView,Response
 
