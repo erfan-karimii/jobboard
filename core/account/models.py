@@ -64,7 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
     fullname = models.CharField(max_length=254)
-    resume_file = models.FileField()
+    resume_file = models.FileField(null=True,blank=True)
 
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
