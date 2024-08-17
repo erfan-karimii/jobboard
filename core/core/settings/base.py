@@ -125,6 +125,12 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+SPECTACULAR_SETTINGS = {
+    "SWAGGER_UI_SETTINGS": {
+        "displayOperationId": True,
+        "displayRequestDuration": True,
+    },
+}
 # import sys
 
 # if sys.argv[1:2] == ["test"]:
