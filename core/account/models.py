@@ -62,9 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.PROTECT,editable=False)
     fullname = models.CharField(max_length=254)
-    resume_file = models.FileField()
+    resume_file = models.FileField(null=True,blank=True)
 
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -73,7 +73,7 @@ class UserProfile(models.Model):
         return self.user.email + "//" + self.fullname
 
 class CompanyProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.PROTECT,editable=False)
     name = models.CharField(max_length=100, unique=True)
     logo = models.ImageField(null=True,blank=True)
     info = models.TextField()

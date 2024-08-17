@@ -1,15 +1,16 @@
 from django.core.mail import send_mail
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAuthenticatedCustomer
+from rest_framework import status
 
 from rest_framework import status , serializers
 from rest_framework.views import APIView,Response
 
 from drf_spectacular.utils import extend_schema , OpenApiResponse, OpenApiExample,inline_serializer
 
-from account.serializers import CustomAuthSerializer,CompanyAuthSerializer
-from account.serializers import CustomAuthSerializer,CompanyAuthSerializer
-from account.models import User
+from account.serializers import CustomAuthSerializer,CustomerProfileSerializers
+from account.models import User,UserProfile
 
 from django.contrib.auth import login
 from django.http import HttpResponse
@@ -58,8 +59,32 @@ class CustomerLoginView(APIView):
             )
             return Response({"Accept request": "please check your email to proceed"},status=status.HTTP_202_ACCEPTED)
 
-        return Response(serializer.errors)
+        return Response({"ERROR":"Your Data Is Wrong"},status=status.HTTP_400_BAD_REQUEST)
     
+
+class CustomerProfile(APIView):
+    serializer_class = CustomerProfileSerializers
+    permission_classes = [IsAuthenticatedCustomer]
+    
+
+    def get(self,request):
+        # self.serializer_class()
+        user=User.objects.get(id=request.user.id)
+        profile = UserProfile.objects.get(user=user)
+        serializers=self.serializer_class(profile)
+        return Response(serializers.data)
+    
+    def post(self,request):
+        user=User.objects.get(id=request.user.id)
+        
+        serializer=self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            x = UserProfile.objects.filter(user=user).update(fullname=serializer.validated_data['fullname'],resume_file=serializer.validated_data.get('resume_file',None))
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 # class CompanyLogin(APIView):

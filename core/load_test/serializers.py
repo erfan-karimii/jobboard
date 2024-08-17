@@ -1,8 +1,8 @@
 from django.utils.translation import gettext_lazy as _
-from .models import Role,UserProfile
+from account.models import Role
 from rest_framework import serializers
 # from account.models import User 
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken,AccessToken
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -37,9 +37,3 @@ class CustomAuthSerializer(serializers.Serializer):
             'refresh': str(refresh),
         }
     
-class CustomerProfileSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        exclude  = ('user','updated_at','created_at','id')
-    
-    resume_file = serializers.FileField(required=False)

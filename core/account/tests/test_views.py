@@ -1,22 +1,21 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase , APIClient
 from account.models import User
-
+from rest_framework import status
 
 class TestClientLoginView(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = reverse("account:login-view")
-        cls.user_1 = User.objects.create_user(email="test1@test.com")
+        cls.user_1 = User.objects.create_user(email="test1@gmail.com")
         cls.client = APIClient()
     
     
     def test_right_data(self):
         data = {
-            "email" : "test1@test.com"
+            "email" : "test1@gmail.com"
         }
-        
-        response = self.client.post(path=self.url,data=data)
+        response = self.client.post(path=self.url,data=data,format="json")
         
         
         self.assertEqual(User.objects.count(),1)
@@ -28,8 +27,7 @@ class TestClientLoginView(APITestCase):
         data = {
             "email" : "test2@test.com"
         }
-        
-        response = self.client.post(path=self.url,data=data)
+        response = self.client.post(path=self.url,data=data,format="json")
         
         
         self.assertEqual(User.objects.count(),2)
@@ -41,11 +39,8 @@ class TestClientLoginView(APITestCase):
         data = {
             "email" : "test"
         }
-        
-        response = self.client.post(path=self.url,data=data)
-        
+        response = self.client.post(path=self.url,data=data,format="json")
         
         self.assertEqual(User.objects.count(),1)
-        self.assertEqual(response.status_code,400)
-        self.assertEqual(response.data.get("email")[0],"Enter a valid email address.")
-        
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data,{"ERROR":"Your Data Is Wrong"})
