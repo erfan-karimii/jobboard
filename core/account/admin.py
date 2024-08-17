@@ -53,8 +53,10 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
+class CsutomProfileAdmin(admin.ModelAdmin):
+    list_display = ['id']
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile,CsutomProfileAdmin)
 
 admin.site.register(Role)
