@@ -3,6 +3,8 @@ from rest_framework.parsers import JSONParser
 
 from rest_framework import status
 from rest_framework.views import APIView,Response
+from account.permissions import IsAuthenticatedCustomer
+from account.models import User
 
 from drf_spectacular.utils import extend_schema , OpenApiResponse, OpenApiExample,inline_serializer
 
@@ -34,4 +36,19 @@ class TestLoadCustomerLoginView(APIView):
             return Response(serializer.validated_data,status=status.HTTP_202_ACCEPTED)
 
         return Response({"ERROR":"Your Data Is Wrong"},status=status.HTTP_400_BAD_REQUEST)
-    
+
+class TestLoadProfileView(APIView):
+    serializer_class = CustomAuthSerializer
+
+    def post(self, request, *args, **kwargs):
+        id = request.data.get("id")
+        user = User.objects.filter(id=id).first()
+        if user is None:
+            return Response({'access':"notfound"})
+        else:
+            serializer = CustomAuthSerializer(data={"email":user.email})
+                    
+            if serializer.is_valid():
+                return Response(serializer.validated_data,status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'access':"notfound"})    

@@ -6,4 +6,6 @@ app_name = "load_test"
 
 urlpatterns = [
     path('login/',views.TestLoadCustomerLoginView.as_view(),name='loadtest_login'),
+    path('p_update/',views.TestLoadProfileView.as_view(),name='loadtest_profile_update'),
+    
 ]
