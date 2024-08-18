@@ -40,6 +40,6 @@ class CustomAuthSerializer(serializers.Serializer):
 class CustomerProfileSerializers(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        exclude  = ('user','updated_at','created_at','id')
+        # exclude  = ['user','updated_at','created_at','id']
+        fields = ['fullname','resume_file']
     
-    resume_file = serializers.FileField(required=False)

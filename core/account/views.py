@@ -73,10 +73,13 @@ class CustomerProfile(APIView):
     
     def post(self,request):
         user=User.objects.get(id=request.user.id)
-        
-        serializer=self.serializer_class(data=request.data)
+        profile =  UserProfile.objects.filter(user=user).first()
+        serializer=self.serializer_class(profile,data=request.data)
         if serializer.is_valid():
-            x = UserProfile.objects.filter(user=user).update(fullname=serializer.validated_data['fullname'],resume_file=serializer.validated_data.get('resume_file',None))
+            # UserProfile.objects.filter(user=user).update(fullname=serializer.validated_data['fullname'],resume_file=serializer.validated_data.get('resume_file'))
+            serializer.update(
+                instance=profile, validated_data=serializer.validated_data
+            )
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
