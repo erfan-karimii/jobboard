@@ -76,7 +76,6 @@ class CustomerProfile(APIView):
         profile =  UserProfile.objects.filter(user=user).first()
         serializer=self.serializer_class(profile,data=request.data)
         if serializer.is_valid():
-            # UserProfile.objects.filter(user=user).update(fullname=serializer.validated_data['fullname'],resume_file=serializer.validated_data.get('resume_file'))
             serializer.update(
                 instance=profile, validated_data=serializer.validated_data
             )
