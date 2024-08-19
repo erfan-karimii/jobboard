@@ -69,9 +69,9 @@ class CustomerProfile(APIView):
         user=User.objects.get(id=request.user.id)
         profile = UserProfile.objects.get(user=user)
         serializers=self.serializer_class(profile)
-        return Response(serializers.data)
+        return Response(serializers.data,status=status.HTTP_200_OK)
     
-    def post(self,request):
+    def patch(self,request):
         user=User.objects.get(id=request.user.id)
         profile =  UserProfile.objects.filter(user=user).first()
         serializer=self.serializer_class(profile,data=request.data)

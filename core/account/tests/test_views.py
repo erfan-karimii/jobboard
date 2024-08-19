@@ -1,7 +1,9 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase , APIClient
-from account.models import User
+from account.models import User,UserProfile
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+from account.serializers import CustomerProfileSerializers
 
 class TestClientLoginView(APITestCase):
     @classmethod
@@ -44,3 +46,48 @@ class TestClientLoginView(APITestCase):
         self.assertEqual(User.objects.count(),1)
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data,{"ERROR":"Your Data Is Wrong"})
+
+
+
+
+class TestProfileCustomer(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse("account:profile")
+        cls.client = APIClient()
+        
+        
+        cls.user = User.objects.create_user(email="test1@gmail.com")
+        jwt = str(RefreshToken.for_user(cls.user).access_token)
+        cls.headers={
+            'Content-Type':'application/json',
+            'Authorization': f'Bearer {jwt}'
+            }
+
+
+    def test_get_profile_user(self):
+        response=self.client.get(path=self.url,headers=self.headers)
+        profile=UserProfile.objects.get(user=self.user)
+        serializer = CustomerProfileSerializers(profile)
+
+        self.assertEqual(response.data,serializer.data)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+        
+    def test_update_profile_by_valid_data(self):
+        data = {
+            "fullname":"masoud"
+        }
+        response = self.client.patch(path=self.url,headers=self.headers,data=data,format="json")
+        profile=UserProfile.objects.get(user=self.user)
+        serializer = CustomerProfileSerializers(profile,data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.update(
+            instance=profile,validated_data=serializer.validated_data
+        )
+        self.assertEqual(response.data,serializer.data)
+        self.assertEqual(response.status_code,status.HTTP_201_CREATED)
+
+    def test_update_profile_by_unvalid_data(self):
+        # TODO :What is Wrong data For Update?
+        pass
