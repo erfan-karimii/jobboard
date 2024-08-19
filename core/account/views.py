@@ -1,16 +1,18 @@
 from django.core.mail import send_mail
+
+from django.contrib.auth import login
+from django.http import HttpResponse
+
 from rest_framework.parsers import JSONParser
-from .permissions import IsAuthenticatedCustomer
 from rest_framework import status , serializers
 from rest_framework.views import APIView,Response
 
 from drf_spectacular.utils import extend_schema , OpenApiResponse, OpenApiExample,inline_serializer
 
-from account.serializers import CustomAuthSerializer,CustomerProfileSerializers
+from .permissions import IsAuthenticatedCustomer
+from account.serializers import CustomAuthSerializer,CustomerProfileSerializers , CompanyAuthSerializer
 from account.models import User,UserProfile
 
-from django.contrib.auth import login
-from django.http import HttpResponse
 
 class CustomerLoginView(APIView):
     serializer_class = CustomAuthSerializer
@@ -42,10 +44,8 @@ class CustomerLoginView(APIView):
         serializer = self.serializer_class(
             data=request.data, context={"request": request}
         )
-        # print(request.data)
         if serializer.is_valid():
             email = request.data['email']
-            host_name = request.get_host()
             admin_email = "admin@admin.com"
             send_mail(
                 subject="confirmation email",
@@ -86,30 +86,6 @@ class CustomerProfile(APIView):
 
 
 
-# class CompanyLogin(APIView):
-#     serializer_class = CompanyAuthSerializer
-
-#     @extend_schema(responses=CompanyAuthSerializer)
-#     def post(self,request):
-#         serializer = self.serializer_class(
-#             data=request.data, context={"request": request}
-#         )
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data["user"]
-#         email = serializer.validated_data["email"]
-#         token, _ = Token.objects.get_or_create(user=user)
-        
-#         host_name = request.get_host()
-#         admin_email = "admin@admin.com"
-#         send_mail(
-#             subject="confirmation email",
-#             message=f"token:{token}",
-#             from_email=admin_email,
-#             recipient_list=[email],
-#             fail_silently=True,
-#         )
-
-#         return Response({"Accept request": "please check your email to proceed"},status=status.HTTP_202_ACCEPTED)
 
 
 
