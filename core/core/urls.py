@@ -25,7 +25,7 @@ from drf_spectacular.views import (
 from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('account.urls')),
+    path('account/', include('account.urls')),
     path('load_test/',include('load_test.urls')),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

@@ -1,5 +1,4 @@
 from django.core.mail import send_mail
-
 from django.contrib.auth import login
 from django.http import HttpResponse
 
@@ -84,9 +83,27 @@ class CustomerProfile(APIView):
 
 
 
+class CompanyLoginView(APIView):
+    serializer_class = CompanyAuthSerializer
 
-
-
+    @extend_schema(responses=CompanyAuthSerializer)
+    def post(self,request):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        if serializer.is_valid():
+            email = request.data['email']
+            admin_email = "admin@admin.com"
+            send_mail(
+                subject="Token email",
+                message=f"{serializer.validated_data}",
+                from_email=admin_email,
+                recipient_list=[email],
+                fail_silently=True,
+            )
+            return Response({"Accept request": "please check your company email to proceed"},status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 def login_view(request):
