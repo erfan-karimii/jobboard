@@ -1,9 +1,13 @@
 from django.urls import reverse
+from django.core import mail
+
 from rest_framework.test import APITestCase , APIClient
-from account.models import User,UserProfile
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from account.models import User,UserProfile
 from account.serializers import CustomerProfileSerializers
+
 
 class TestClientLoginView(APITestCase):
     @classmethod
@@ -48,8 +52,6 @@ class TestClientLoginView(APITestCase):
         self.assertEqual(response.data,{"ERROR":"Your Data Is Wrong"})
 
 
-
-
 class TestProfileCustomer(APITestCase):
     @classmethod
     def setUpTestData(cls):
@@ -91,3 +93,53 @@ class TestProfileCustomer(APITestCase):
     def test_update_profile_by_unvalid_data(self):
         # TODO :What is Wrong data For Update?
         pass
+
+
+class TestCompanyLoginView(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse("account:company-login")
+        cls.client = APIClient()
+        
+        
+        cls.user = User.objects.create_company(email="test1@gmail.com")
+        jwt = str(RefreshToken.for_user(cls.user).access_token)
+        cls.headers={
+            'Content-Type':'application/json',
+            'Authorization': f'Bearer {jwt}'
+            }
+    
+    
+    def test_right_data(self):
+        data = {
+            "email" : "test1@gmail.com"
+        }
+        response = self.client.post(path=self.url,data=data,format="json")
+        
+        
+        self.assertEqual(response.status_code,202)
+        self.assertEqual(response.data,{"Accept request": "please check your company email to proceed"})
+        self.assertEqual(len(mail.outbox),1)
+
+    
+    def test_none_existing_user(self):
+        data = {
+            "email" : "test2@test.com"
+        }
+        response = self.client.post(path=self.url,data=data,format="json")
+        expected_msg = 'Your Company Email Doesn\'t exist.\nFor more informations , please contact supports.'
+        self.assertEqual(response.status_code,400)
+        self.assertEqual(expected_msg,response.data['non_field_errors'][0])
+        self.assertEqual(len(mail.outbox),0)
+    
+    
+    def test_wrong_data(self):
+        data = {
+            "email" : "test"
+        }
+        response = self.client.post(path=self.url,data=data,format="json")
+        
+        self.assertEqual(response.status_code,400)
+        self.assertEqual('Enter a valid email address.',response.data['email'][0])
+        self.assertEqual(len(mail.outbox),0)
+ 
