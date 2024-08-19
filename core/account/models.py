@@ -23,6 +23,16 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_company(self, email,**extra_fields):
+        if not email:
+            raise ValueError("The Email must be set")
+        email = self.normalize_email(email)
+        company_role, _ = Role.objects.get_or_create(role = 'company')
+        company = self.model(email=email, role=company_role,**extra_fields)
+        company.set_unusable_password()
+        company.save()
+        return company
+
     def create_superuser(self, email,**extra_fields):
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
