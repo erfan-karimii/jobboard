@@ -8,9 +8,9 @@ from rest_framework.views import APIView,Response
 
 from drf_spectacular.utils import extend_schema , OpenApiResponse, OpenApiExample,inline_serializer
 
-from .permissions import IsAuthenticatedCustomer
-from account.serializers import CustomAuthSerializer,CustomerProfileSerializers , CompanyAuthSerializer
-from account.models import User,UserProfile
+from .permissions import IsAuthenticatedCustomer,IsAuthenticatedCompany
+from account.serializers import CustomAuthSerializer,CustomerProfileSerializers , CompanyAuthSerializer,CompanyProfileSerializers
+from account.models import User,UserProfile,CompanyProfile
 
 
 class CustomerLoginView(APIView):
@@ -101,9 +101,24 @@ class CompanyLoginView(APIView):
                 recipient_list=[email],
                 fail_silently=True,
             )
+            print(serializer.validated_data)
             return Response({"Accept request": "please check your company email to proceed"},status=status.HTTP_202_ACCEPTED)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class CompanyProfileView(APIView):
+    serializer_class = CompanyProfileSerializers
+    permission_classes = [IsAuthenticatedCompany]
+
+    def get(self,request):
+        # self.serializer_class()
+        user=User.objects.get(id=request.user.id)
+        profile = CompanyProfile.objects.get(user=user)
+        serializers=self.serializer_class(profile)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+
+
 
 
 def login_view(request):

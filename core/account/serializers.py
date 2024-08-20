@@ -1,5 +1,5 @@
 from django.utils.translation import gettext_lazy as _
-from .models import Role,UserProfile
+from .models import Role,UserProfile,CompanyProfile
 from rest_framework import serializers
 # from account.models import User 
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -74,3 +74,8 @@ class CompanyAuthSerializer(serializers.Serializer):
             'refresh': str(refresh),
         }
     
+
+class CompanyProfileSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyProfile
+        exclude = ['user','id']

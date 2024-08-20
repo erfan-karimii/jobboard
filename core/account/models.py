@@ -91,4 +91,4 @@ class CompanyProfile(models.Model):
 
 
     def __str__(self):
-        return self.user.email+"  " + self.user.role + " " + self.name
+        return self.user.email+"  " + self.user.role.role + " " + self.name

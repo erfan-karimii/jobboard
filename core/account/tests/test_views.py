@@ -69,10 +69,8 @@ class TestProfileCustomer(APITestCase):
 
     def test_get_profile_user(self):
         response=self.client.get(path=self.url,headers=self.headers)
-        profile=UserProfile.objects.get(user=self.user)
-        serializer = CustomerProfileSerializers(profile)
 
-        self.assertEqual(response.data,serializer.data)
+        self.assertEqual(response.data,{'fullname': '', 'resume_file': None})
         self.assertEqual(response.status_code,status.HTTP_200_OK)
 
         
@@ -81,18 +79,19 @@ class TestProfileCustomer(APITestCase):
             "fullname":"masoud"
         }
         response = self.client.patch(path=self.url,headers=self.headers,data=data,format="json")
-        profile=UserProfile.objects.get(user=self.user)
-        serializer = CustomerProfileSerializers(profile,data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.update(
-            instance=profile,validated_data=serializer.validated_data
-        )
-        self.assertEqual(response.data,serializer.data)
+
+        self.assertEqual(response.data,{'fullname': 'masoud', 'resume_file': None})
         self.assertEqual(response.status_code,status.HTTP_201_CREATED)
+
 
     def test_update_profile_by_unvalid_data(self):
         # TODO :What is Wrong data For Update?
-        pass
+        data = {
+            "fullname":True
+        }
+        response = self.client.patch(path=self.url,headers=self.headers,data=data,format="json")
+        
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
 
 
 class TestCompanyLoginView(APITestCase):
