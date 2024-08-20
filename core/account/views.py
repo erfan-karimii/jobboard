@@ -82,7 +82,6 @@ class CustomerProfile(APIView):
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class CompanyLoginView(APIView):
     serializer_class = CompanyAuthSerializer
 
@@ -112,12 +111,19 @@ class CompanyProfileView(APIView):
     permission_classes = [IsAuthenticatedCompany]
 
     def get(self,request):
-        # self.serializer_class()
         user=User.objects.get(id=request.user.id)
         profile = CompanyProfile.objects.get(user=user)
         serializers=self.serializer_class(profile)
         return Response(serializers.data,status=status.HTTP_200_OK)
-
+    
+    def patch(self,request):
+        user = User.objects.get(id=request.user.id)
+        profile = CompanyProfile.objects.get(user=user)
+        serializers=self.serializer_class(profile,data=request.data,partial=True)
+        serializers.is_valid(raise_exception=True)
+        serializers.save()
+        return Response(serializers.validated_data,status=status.HTTP_200_OK)
+        
 
 
 

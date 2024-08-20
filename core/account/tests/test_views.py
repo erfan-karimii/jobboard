@@ -1,3 +1,4 @@
+import json
 from django.urls import reverse
 from django.core import mail
 
@@ -5,7 +6,7 @@ from rest_framework.test import APITestCase , APIClient
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from account.models import User,UserProfile
+from account.models import User,UserProfile , CompanyProfile
 from account.serializers import CustomerProfileSerializers
 
 
@@ -141,4 +142,49 @@ class TestCompanyLoginView(APITestCase):
         self.assertEqual(response.status_code,400)
         self.assertEqual('Enter a valid email address.',response.data['email'][0])
         self.assertEqual(len(mail.outbox),0)
- 
+
+
+class TestProfileCustomer(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse("account:company-profile")
+        cls.client = APIClient()
+        
+        
+        cls.company = User.objects.create_company(email="test1@gmail.com")
+        jwt = str(RefreshToken.for_user(cls.company).access_token)
+        cls.headers={
+            'Content-Type':'application/json',
+            'Authorization': f'Bearer {jwt}'
+            }
+
+
+    def test_get_profile_user(self):
+        response=self.client.get(path=self.url,headers=self.headers)
+
+        expected_result = {"name" : "" ,"logo" : None ,"info" : "" ,"employee_number" : 0,}
+        self.assertEqual(response.data,expected_result)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+        
+    def test_update_profile_by_valid_data(self):
+        data = {
+            'name' : 'erfan',
+            'info' : 'erfan info',
+            'employee_number' : 100,
+        }
+        response = self.client.patch(path=self.url,headers=self.headers,data=data,format="json")
+        self.assertEqual(response.data,data)
+        self.assertEqual(response.status_code,200)
+        
+
+
+    def test_update_profile_by_unvalid_data(self):
+        data = {
+            'test':'test'
+        }
+        response = self.client.patch(path=self.url,headers=self.headers,data=data,format="json")
+        
+        self.assertEqual(response.data,{})
+        self.assertEqual(response.status_code,200)
+        
