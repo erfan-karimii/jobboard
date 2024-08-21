@@ -17,7 +17,7 @@ ALLOWED_HOSTS = config(
 
 # Application definition
 LOCAL_APPS = [
-    "account.apps.AccountConfig","load_test",
+    "account.apps.AccountConfig","load_test","job.apps.JobConfig"
 ]
 
 THIRD_PARTY_APPS = ["rest_framework","drf_spectacular",'rest_framework_simplejwt']
