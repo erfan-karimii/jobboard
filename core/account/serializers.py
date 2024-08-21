@@ -18,7 +18,10 @@ class CustomAuthSerializer(serializers.Serializer):
 
         if email:
             try:
-                user = User.objects.get(email=email,role__role= 'user')
+                user = User.objects.get(email=email)
+                if user.role.role == "company":
+                    msg = _('Something went wrong!\nPlease try again later.')
+                    raise serializers.ValidationError(msg, code="authorization")
             except User.DoesNotExist:
                 user = User.objects.create_user(email=email) # FIXME: this throw 500 error when compant email is there 
             except Exception:
