@@ -11,7 +11,7 @@ user_urlpatterns = [
 ]
 
 company_urlpatterns = [
-    # path('login/',views.CompanyLoginView.as_view(),name='company-login'),
+    path('job/',views.CreateJobView.as_view(),name='company-login'),
     # path('profile/',views.CompanyProfileView.as_view(),name='company-profile')
 ]
 
