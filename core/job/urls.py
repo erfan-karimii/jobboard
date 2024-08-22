@@ -5,8 +5,8 @@ from . import views
 app_name = "job" 
 
 user_urlpatterns = [
-    # path('login/',views.CustomerLoginView.as_view(),name='login-view'),
-    # path('flog/',views.login_view,name='flog'),
+    path('',views.ShowJobs.as_view(),name='jobs'),
+    path('<int:pk>/',views.ShowDetailJob.as_view(),name='job-detail'),
     # path('profile/',views.CustomerProfile.as_view(),name='profile'),
 ]
 
