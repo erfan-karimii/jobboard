@@ -1,11 +1,11 @@
 from django.core.mail import send_mail
 from rest_framework.parsers import JSONParser
-
+import random
 from rest_framework import status
 from rest_framework.views import APIView,Response
 from account.permissions import IsAuthenticatedCustomer
-from account.models import User
-
+from account.models import User,CompanyProfile
+from account.serializers import CompanyAuthSerializer
 from drf_spectacular.utils import extend_schema , OpenApiResponse, OpenApiExample,inline_serializer
 
 from .serializers import CustomAuthSerializer
@@ -47,6 +47,23 @@ class TestLoadProfileView(APIView):
             return Response({'access':"notfound"})
         else:
             serializer = CustomAuthSerializer(data={"email":user.email})
+                    
+            if serializer.is_valid():
+                return Response(serializer.validated_data,status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response({'access':"notfound"})    
+            
+
+class TestLoadCompanyProfile(APIView):
+    serializer_class = CustomAuthSerializer
+
+    def post(self, request, *args, **kwargs):
+        id =4
+        user = CompanyProfile.objects.filter(id=id).first()
+        if user is None:
+            return Response({'access':"notfound"})
+        else:
+            serializer = CompanyAuthSerializer(data={"email":user.user.email})
                     
             if serializer.is_valid():
                 return Response(serializer.validated_data,status=status.HTTP_202_ACCEPTED)

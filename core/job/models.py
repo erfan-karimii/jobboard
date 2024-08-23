@@ -50,7 +50,7 @@ class Job(models.Model):
     title = models.CharField(max_length=400)
     category = models.ForeignKey(JobCategory,on_delete=models.SET_NULL,null=True)
     province = models.CharField(max_length=50,choices=PROVINCE_CHOICES)
-    salary = models.CharField(max_length=3,help_text='for every hour')
+    salary = models.IntegerField()
     info = models.TextField()
 
     status = models.BooleanField(default=False)
