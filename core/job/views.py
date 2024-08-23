@@ -6,7 +6,7 @@ from drf_spectacular.utils import extend_schema
 from account.permissions import IsAuthenticatedCompany
 from account.models import CompanyProfile
 from .models import Job
-from .serializers import CreateJobSerializer
+from .serializers import CreateJobSerializer,ShowDetailJobSerializer,ShowJobSerializers
 
 
 class CreateJobView(APIView):
@@ -40,30 +40,18 @@ class CompanyJobDetail(APIView):
           
 
 class ShowJobs(APIView):
-
-    class ShowJobSerializers(serializers.ModelSerializer):
-        url = serializers.HyperlinkedIdentityField(view_name='job:job-detail', read_only=True)
-        class Meta:
-            model= Job
-            fields = ['title','company','province','url']
-
+    serializer_class = ShowJobSerializers
     def get(self,request):
         jobs=Job.objects.filter(status=True)
-        serializer=self.ShowJobSerializers(jobs,many=True,context={'request':request})
+        serializer=self.serializer_class(jobs,many=True,context={'request':request})
 
-        return Response(serializer.data)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 class ShowDetailJob(APIView):
-    class ShowDetailJobSerializer(serializers.ModelSerializer):
-        # url = serializers.HyperlinkedIdentityField(view_name='job-detail', read_only=True)
-        class Meta:
-            model= Job
-            fields ="__all__"
-
+    serializer_class = ShowDetailJobSerializer
     def get(self,request,pk):
         job = get_object_or_404(Job,id=pk,status=True)
-        ser = self.ShowDetailJobSerializer(job)
-        return Response(ser.data)
-
+        serializer = self.serializer_class(job)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
