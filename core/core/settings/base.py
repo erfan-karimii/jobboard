@@ -127,7 +127,6 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_SETTINGS": {
-        "displayOperationId": True,
         "displayRequestDuration": True,
     },
 }
