@@ -22,6 +22,18 @@ class CreateJobView(APIView):
         return Response({'detail':'job created successfully'},status=status.HTTP_200_OK)
 
 
+class CompanyJobDetail(APIView):
+    permission_classes = [IsAuthenticatedCompany]
+    serializer_class = CreateJobSerializer
+
+    def patch(self,request,id):
+        job = get_object_or_404(Job,id=id,company=request.user.companyprofile)
+        serializer = self.serializer_class(job,data=request.data,partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.update(job,serializer.validated_data)
+        return Response({'detail':'job updated successfully'},status=status.HTTP_200_OK)
+        
+
 class ShowJobs(APIView):
 
     class ShowJobSerializers(serializers.ModelSerializer):
@@ -48,3 +60,5 @@ class ShowDetailJob(APIView):
         job = get_object_or_404(Job,id=pk,status=True)
         ser = self.ShowDetailJobSerializer(job)
         return Response(ser.data)
+
+
