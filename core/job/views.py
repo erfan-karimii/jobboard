@@ -19,20 +19,25 @@ class CreateJobView(APIView):
         serializer.is_valid(raise_exception=True)
         company_profile = CompanyProfile.objects.get(user=request.user)
         serializer.save(company=company_profile)
-        return Response({'detail':'job created successfully'},status=status.HTTP_200_OK)
+        return Response({'detail':'job created successfully'},status=status.HTTP_201_CREATED)
 
 
 class CompanyJobDetail(APIView):
     permission_classes = [IsAuthenticatedCompany]
     serializer_class = CreateJobSerializer
 
+    def get(self,request,id):
+        job = get_object_or_404(Job,id=id,company=request.user.companyprofile)
+        serializer = self.serializer_class(job)
+        return Response(serializer.data,status=status.HTTP_200_OK)        
+    
     def patch(self,request,id):
         job = get_object_or_404(Job,id=id,company=request.user.companyprofile)
         serializer = self.serializer_class(job,data=request.data,partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.update(job,serializer.validated_data)
         return Response({'detail':'job updated successfully'},status=status.HTTP_200_OK)
-        
+          
 
 class ShowJobs(APIView):
 
