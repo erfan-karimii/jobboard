@@ -46,7 +46,7 @@ class Job(models.Model):
         ("ZN", _("Zanjan")),
     )
     
-    company = models.ForeignKey(CompanyProfile,on_delete=models.CASCADE)
+    company = models.ForeignKey(CompanyProfile,on_delete=models.CASCADE,editable=False)
     title = models.CharField(max_length=400)
     category = models.ForeignKey(JobCategory,on_delete=models.SET_NULL,null=True)
     province = models.CharField(max_length=50,choices=PROVINCE_CHOICES)
@@ -60,4 +60,4 @@ class Job(models.Model):
 
 
     def __str__(self):
-        return self.title + " " + self.company.name + " " + str(self.status)
+        return self.title + " " + self.company.user.email + " " + str(self.status)

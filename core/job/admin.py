@@ -4,5 +4,9 @@ from .models import Job,JobCategory
 
 
 
-admin.site.register(Job)
+
+class JobAdmin(admin.ModelAdmin):
+    list_display = ['company','title','salary','status']
+
+admin.site.register(Job,JobAdmin)
 admin.site.register(JobCategory)
