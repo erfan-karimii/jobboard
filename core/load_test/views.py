@@ -58,7 +58,7 @@ class TestLoadCompanyProfile(APIView):
     serializer_class = CustomAuthSerializer
 
     def post(self, request, *args, **kwargs):
-        id =4
+        id =8229
         user = CompanyProfile.objects.filter(id=id).first()
         if user is None:
             return Response({'access':"notfound"})
