@@ -68,4 +68,13 @@ class TestLoadCompanyProfile(APIView):
             if serializer.is_valid():
                 return Response(serializer.validated_data,status=status.HTTP_202_ACCEPTED)
             else:
-                return Response({'access':"notfound"})    
+                return Response({'access':"notfound"})
+            
+from faker import Faker
+class MakeCompany(APIView):
+    f = Faker()
+    def get(self, request, *args, **kwargs):
+        for x in range(1,10000):
+            r = f"{str(x)}company{str(self.f.email())}"
+            User.objects.create_company(email=r)
+        return Response("ITS OK")

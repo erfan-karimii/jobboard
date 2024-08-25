@@ -84,7 +84,7 @@ class UserProfile(models.Model):
 
 class CompanyProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT,editable=False)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     logo = models.ImageField(null=True,blank=True)
     info = models.TextField()
     employee_number = models.IntegerField()
