@@ -74,10 +74,10 @@ def validate_resume_size(value):
 class JobApply(models.Model):
     job_seeker = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE,null=True)
-    cv_file = models.FileField(validators=[validate_resume_size],blank=True,null=True)
+    cv_file = models.FileField(validators=[validate_resume_size])
     created = models.DateTimeField(auto_now_add=True)
 
     status = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.job_seeker} to {self.job.company.name} for {self.job.title}"
+        return f"{self.job_seeker.user.email} to {self.job.company.name} for {self.job.title}"
