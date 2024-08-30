@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Job,JobCategory
+from .models import Job,JobCategory,JobApply
 # Register your models here.
 
 
@@ -10,3 +10,4 @@ class JobAdmin(admin.ModelAdmin):
 
 admin.site.register(Job,JobAdmin)
 admin.site.register(JobCategory)
+admin.site.register(JobApply)

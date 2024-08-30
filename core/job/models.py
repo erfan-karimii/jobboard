@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from account.models import CompanyProfile
-# Create your models here.
-
+from account.models import CompanyProfile,UserProfile
+from django.core.exceptions import ValidationError
 
 class JobCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -58,6 +57,27 @@ class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
     def __str__(self):
         return self.title + " " + self.company.user.email + " " + str(self.status)
+
+
+def validate_resume_size(value):
+    filesize= value.size
+    
+    if filesize > 3485760:
+        raise ValidationError("You cannot upload file more than 3MB")
+    else:
+        return value
+
+
+
+class JobApply(models.Model):
+    job_seeker = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE,null=True)
+    cv_file = models.FileField(validators=[validate_resume_size],blank=True,null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.job_seeker} to {self.job.company.name} for {self.job.title}"
