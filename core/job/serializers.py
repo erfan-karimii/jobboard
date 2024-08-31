@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import Job,JobCategory
+from .models import Job,JobCategory , JobApply,validate_resume_size
 from account.models import CompanyProfile
+
 
 class CreateJobSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,3 +35,9 @@ class ShowDetailJobSerializer(serializers.ModelSerializer):
     class Meta:
         model= Job
         exclude = ["id","status","created"]
+
+
+class SendJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobApply
+        exclude = ['id','status','created','job_seeker']

@@ -77,7 +77,16 @@ class JobApply(models.Model):
     cv_file = models.FileField(validators=[validate_resume_size])
     created = models.DateTimeField(auto_now_add=True)
 
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=True) # FIXME True or False Not right we must status for Job ->ChoicesField
 
     def __str__(self):
         return f"{self.job_seeker.user.email} to {self.job.company.name} for {self.job.title}"
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['job_seeker', 'job'],
+                name='unique_job_seeker_job',
+                violation_error_message='This job seeker has already applied for this job.'
+            ),
+        ]

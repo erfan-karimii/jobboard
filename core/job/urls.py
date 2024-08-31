@@ -8,6 +8,7 @@ user_urlpatterns = [
     path('',views.ShowJobs.as_view(),name='jobs'),
     path('<int:pk>/',views.ShowDetailJob.as_view(),name='job-detail'),
     # path('profile/',views.CustomerProfile.as_view(),name='profile'),
+    path('send_job/',views.SendJob.as_view(),name='sendjob'),
 ]
 
 company_urlpatterns = [

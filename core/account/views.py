@@ -53,6 +53,7 @@ class CustomerLoginView(APIView):
                 recipient_list=[email],
                 fail_silently=True,
             )
+            print(serializer.validated_data)
             return Response({"Accept request": "please check your email to proceed"},status=status.HTTP_202_ACCEPTED)
 
         return Response({"ERROR":"Your Data Is Wrong"},status=status.HTTP_400_BAD_REQUEST)

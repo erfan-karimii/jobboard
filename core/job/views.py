@@ -3,11 +3,11 @@ from rest_framework import status , serializers
 from rest_framework.views import APIView , Response
 from drf_spectacular.utils import extend_schema 
 from rest_framework.pagination import PageNumberPagination
-from account.permissions import IsAuthenticatedCompany
-from account.models import CompanyProfile
-from .models import Job
-from .serializers import CreateJobSerializer,ShowDetailJobSerializer,ShowJobSerializers
-
+from account.permissions import IsAuthenticatedCompany,IsAuthenticatedCustomer
+from account.models import CompanyProfile,User,UserProfile
+from .models import Job,JobApply
+from .serializers import CreateJobSerializer,ShowDetailJobSerializer,ShowJobSerializers,SendJobSerializer
+from django.db import IntegrityError
 
 class CreateJobView(APIView):
     permission_classes = [IsAuthenticatedCompany]
@@ -58,3 +58,17 @@ class ShowDetailJob(APIView):
         serializer = self.serializer_class(job)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
+class SendJob(APIView):
+    permission_classes = [IsAuthenticatedCustomer]
+    serializer_class = SendJobSerializer
+    def post(self,request):
+        user = User.objects.get(id=request.user.id)
+        profile = UserProfile.objects.get(user=user)
+        serializer=self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # NOTE FIX a user can Send a Job APPLY FOR A JOB OFFER NOT EVERY TIME 
+        try:
+            JobApply.objects.create(job_seeker=profile,**serializer.validated_data)
+            return Response({"detail":"Your Resume Send Succesful"})
+        except IntegrityError as e:
+            return Response({"error":"you already applied for this job."})
