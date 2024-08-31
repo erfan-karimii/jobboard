@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Job,JobCategory , JobApply,validate_resume_size
 from account.models import CompanyProfile
-
+from account.serializers import CustomerProfileSerializers
 
 class CreateJobSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,3 +41,17 @@ class SendJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobApply
         exclude = ['id','status','created','job_seeker']
+
+
+class SerializerCompanySeeJob(serializers.ModelSerializer):
+    link = serializers.HyperlinkedIdentityField(view_name='job:seeDetailJob', read_only=True)
+    class Meta:
+        model = Job
+        exclude = ["id","status","created","category","company","updated_at"]
+
+class SerializerSeeJobSeeker(serializers.ModelSerializer):
+    job_seeker = CustomerProfileSerializers()
+    job = serializers.CharField(source='job.title')
+    class Meta:
+        model = JobApply
+        fields = "__all__"

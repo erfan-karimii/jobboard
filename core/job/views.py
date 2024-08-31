@@ -6,7 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from account.permissions import IsAuthenticatedCompany,IsAuthenticatedCustomer
 from account.models import CompanyProfile,User,UserProfile
 from .models import Job,JobApply
-from .serializers import CreateJobSerializer,ShowDetailJobSerializer,ShowJobSerializers,SendJobSerializer
+from .serializers import CreateJobSerializer,ShowDetailJobSerializer,ShowJobSerializers,SendJobSerializer,SerializerCompanySeeJob,SerializerSeeJobSeeker
 from django.db import IntegrityError
 
 class CreateJobView(APIView):
@@ -72,3 +72,25 @@ class SendJob(APIView):
             return Response({"detail":"Your Resume Send Succesful"})
         except IntegrityError as e:
             return Response({"error":"you already applied for this job."})
+        
+
+class CompanySeeJob(APIView):
+    serializer_class = SerializerCompanySeeJob
+    permission_classes = [IsAuthenticatedCompany]
+    def get(self,request):
+        user = User.objects.get(id=request.user.id)
+        profile = CompanyProfile.objects.get(user=user)
+        job = Job.objects.filter(company=profile)
+        response=self.serializer_class(job,many=True,context = {'request':request})
+        print(user.email)
+        return Response(response.data,status=status.HTTP_200_OK)
+    
+class CompanyFindSeeker(APIView):
+    serializer_class = SerializerSeeJobSeeker
+    permission_classes = [IsAuthenticatedCompany]
+    def get(self,request,pk):
+        user = User.objects.get(id=request.user.id)
+        profile = CompanyProfile.objects.get(user=user)
+        job_seeker = JobApply.objects.filter(job__id=pk,job__company=profile)
+        response = self.serializer_class(job_seeker,many=True)
+        return Response(response.data)

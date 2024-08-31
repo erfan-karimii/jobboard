@@ -13,7 +13,9 @@ user_urlpatterns = [
 
 company_urlpatterns = [
     path('job/',views.CreateJobView.as_view(),name='company-create-job'),
-    path('job/<int:id>/',views.CompanyJobDetail.as_view(),name='company-detail-job')
+    path('job/<int:id>/',views.CompanyJobDetail.as_view(),name='company-detail-job'),
+    path('seejob/',views.CompanySeeJob.as_view(),name='seejob'),
+    path('seejob/<int:pk>/',views.CompanyFindSeeker.as_view(),name='seeDetailJob'),
 ]
 
 
