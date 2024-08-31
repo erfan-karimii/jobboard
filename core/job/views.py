@@ -66,7 +66,6 @@ class SendJob(APIView):
         profile = UserProfile.objects.get(user=user)
         serializer=self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # NOTE FIX a user can Send a Job APPLY FOR A JOB OFFER NOT EVERY TIME 
         try:
             JobApply.objects.create(job_seeker=profile,**serializer.validated_data)
             return Response({"detail":"Your Resume Send Succesful"})
