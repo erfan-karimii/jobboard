@@ -43,7 +43,7 @@ class ShowJobs(APIView):
     serializer_class = ShowJobSerializers
 
     def get(self,request):
-        jobs=Job.objects.filter(status=True)
+        jobs=Job.objects.filter(status=True).order_by('-created')
         paginator = PageNumberPagination()
         page = paginator.paginate_queryset(jobs,request)
         serializer=self.serializer_class(page,many=True,context={'request':request})
