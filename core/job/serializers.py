@@ -11,11 +11,11 @@ class CreateJobSerializer(serializers.ModelSerializer):
 
 
 class ShowJobSerializers(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='job:job-detail', read_only=True)
+    # url = serializers.HyperlinkedIdentityField(view_name='job:job-detail', read_only=True)
     company = serializers.CharField(source='company.name')
     class Meta:
         model= Job
-        fields = ['title','company','province','url']
+        fields = ['title','company','province']
 
 
 
