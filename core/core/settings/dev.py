@@ -15,3 +15,21 @@ EMAIL_HOST = config("EMAIL_HOST",default="smtp4dev")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER",default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD",default="")
 EMAIL_PORT = 25
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
