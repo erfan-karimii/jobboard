@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status , serializers
 from rest_framework.views import APIView , Response
 from drf_spectacular.utils import extend_schema 
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import LimitOffsetPagination
 from account.permissions import IsAuthenticatedCompany,IsAuthenticatedCustomer
 from account.models import CompanyProfile,User,UserProfile
 from .models import Job,JobApply
@@ -43,8 +43,8 @@ class ShowJobs(APIView):
     serializer_class = ShowJobSerializers
 
     def get(self,request):
-        jobs=Job.objects.filter(status=True).order_by('-created')
-        paginator = PageNumberPagination()
+        jobs=Job.objects.filter(status=True).select_related('company').only('company__name').order_by('-id')
+        paginator = LimitOffsetPagination()
         page = paginator.paginate_queryset(jobs,request)
         serializer=self.serializer_class(page,many=True,context={'request':request})
 
