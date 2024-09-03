@@ -74,6 +74,9 @@ DATABASES = {
         'PASSWORD': config("POSTGRES_PASSWORD", default="admin"),
         'HOST': 'db',
         'PORT': 5432,
+        "OPTIONS": {
+            "pool": True,
+        },
     }
 }
 
