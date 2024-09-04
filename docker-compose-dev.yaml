@@ -55,6 +55,18 @@ services:
     environment:
       - ServerOptions__HostName=smtp4dev
 
+  redis:
+    container_name: redis3
+    image: redis/redis-stack-server:7.2.0-v6
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    volumes:
+      - redis_data:/data
+
+
 volumes:
   postgres-volume:
   smtp4dev-data:
+  redis_data:

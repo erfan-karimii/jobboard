@@ -133,7 +133,13 @@ SPECTACULAR_SETTINGS = {
     },
 }
 
+CACHES = {
+    'default': {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        'LOCATION': 'redis://redis3:6379',
 
+    }
+}
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

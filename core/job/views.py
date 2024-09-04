@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.core.cache import cache
 from rest_framework import status , serializers
 from rest_framework.views import APIView , Response
 from drf_spectacular.utils import extend_schema 
@@ -39,21 +40,23 @@ class CompanyJobDetail(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.update(job,serializer.validated_data)
         return Response({'detail':'job updated successfully'},status=status.HTTP_200_OK)
-          
 
 class ShowJobs(APIView):
     serializer_class = ShowJobSerializers
-
+    
     def get(self,request):
-        # TODO : optimize Paginator SQL 
-        jobs=Job.objects.filter(status=True).select_related('company').only('title','province','company__name').order_by('-id')
-        paginator = LimitOffsetPagination()
-        page = paginator.paginate_queryset(jobs,request)
-        
-        serializer=self.serializer_class(page,many=True,context={'request':request})
+        cache_key = "JobSerializer"
+        data = cache.get(cache_key)
+        if data is None:
+            jobs=Job.objects.filter(status=True).select_related('company').only('title','province','company__name').order_by('-id')
+            paginator = LimitOffsetPagination()
+            page = paginator.paginate_queryset(jobs,request)
+            
+            serializer=self.serializer_class(page,many=True,context={'request':request})
+            cache.set(cache_key,serializer.data,timeout=5)
 
-        return Response(serializer.data,status=status.HTTP_200_OK)
-
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(data,status=status.HTTP_200_OK)
 
 class ShowDetailJob(APIView):
     serializer_class = ShowDetailJobSerializer
