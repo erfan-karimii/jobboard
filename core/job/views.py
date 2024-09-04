@@ -53,7 +53,7 @@ class ShowJobs(APIView):
             page = paginator.paginate_queryset(jobs,request)
             
             serializer=self.serializer_class(page,many=True,context={'request':request})
-            cache.set(cache_key,serializer.data,timeout=5)
+            cache.set(cache_key,serializer.data,timeout=15)
 
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(data,status=status.HTTP_200_OK)
