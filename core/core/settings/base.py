@@ -17,7 +17,7 @@ ALLOWED_HOSTS = config(
 
 # Application definition
 LOCAL_APPS = [
-    "account.apps.AccountConfig","load_test","job.apps.JobConfig"
+    "account.apps.AccountConfig","load_test","job.apps.JobConfig","analytics.apps.AnalyticsConfig"
 ]
 
 THIRD_PARTY_APPS = ["rest_framework","drf_spectacular",'rest_framework_simplejwt']
@@ -161,3 +161,6 @@ MEDIA_URL = '/media/'
 #         },
 #     }
     
+CELERY_BROKER_URL = "redis://redis3:6379/1"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP  = True
+CELERY_RESULT_BACKEND = "redis://redis3:6379/0"

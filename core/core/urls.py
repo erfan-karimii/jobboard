@@ -28,6 +28,8 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('load_test/',include('load_test.urls')),
     path('jobs/',include('job.urls')),
+    path('analytic/',include('analytics.urls')),
+
 
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
