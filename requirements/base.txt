@@ -9,3 +9,4 @@ drf_spectacular
 djangorestframework-simplejwt
 redis
 django-redis
+fpdf
