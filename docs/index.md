@@ -16,13 +16,13 @@ Note: Ensure that ports 5000, 25, and 143 are open, as they are required for SMT
 ## Why This Project Stands Out
 
 * [use locust to handel high load pressure](high-pressure.md)
-* [use celery for handling background processing and cash scheduling](celery.md)
+* [use celery for handling background processing and task scheduling](celery.md)
 * [cash strategies](cash.md)
 
 <div class="custom-box">
     <h4>Hardware configuration</h4>
     <div class="custom-box-detail">
-    <p>Ram: 8GB dingle channel</p>
+    <p>Ram: 8GB single channel</p>
     <p>hard: 128GB SSD</p>
     <p>cpu: 8core</p>
     <p>os: ubuntu server</p>
