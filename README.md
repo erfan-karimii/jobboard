@@ -1,4 +1,4 @@
-# Welcome to Jobboard documentation
+# Welcome to Jobboard
 
 <b><a href="https://erfan-karimii.github.io/jobboard/" target="blank">full documentation</a></b>
 
