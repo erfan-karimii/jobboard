@@ -1,4 +1,4 @@
-# Details to be Added Shortly
+# job
 ## flow of jobs
 The core concepts of this project are outlined in the app. Our primary goal is to help companies find the best candidates, while enabling job seekers to land their dream jobs. To begin, companies should start by posting their job openings.
 

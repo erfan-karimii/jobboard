@@ -3,7 +3,7 @@
 ## Authentication and Authorization
 We have chosen JWT (JSON Web Token) as our authentication mechanism due to its strong security features and efficient performance.
 
-For implementation, we use the Simple JWT package, which provides a convenient and customizable solution for managing tokens.
+For implementation, we use the **Simple JWT** package, which provides a convenient and customizable solution for managing tokens.
 
 Roles:
 
@@ -24,7 +24,18 @@ Roles:
 2. Login Process: Once the account is created by support, company customers can log in using their company email through the standard login process.
 
 ## model
-NEED FURTHER RESEARCH
+Our job application system consists of four core models.
+
+
+### User
+User is The main model handles authentication and authorization. It inherits from Django’s `AbstractBaseUser` to allow for customizability and integration. This model uses email as the primary username and includes a foreign key for user roles to facilitate user verification.
+
+### Role
+The Role model essentially stores a single CharField called role, which is used for our custom [authorization] (#authentication-and-authorization)system.  
+
+###  UserProfile & CompanyProfile
+We use two separate profile models for easier maintenance and to allow for future extensions based on project needs. The details of these profiles are not critical but help ensure that the project aligns closely with real-world scenarios.
+
 
 ## schema
 ![Screenshot](img/accounting-sc.svg)
@@ -40,5 +51,5 @@ This app has been thoroughly tested to ensure full functionality and reliability
 The most critical endpoint in this section is user sign-up, due to its role in writing data to the database. We focused extensively on this endpoint by simulating the creation of 2 million users with randomly generated emails using Locust.
 
 Statistics indicate that under heavy load, the endpoint performs with a **99th** percentile latency of **100 ms** and an average latency of 70 ms, which meets our performance expectations.
-For more details on how we implemented heavy load testing, [read the full report.](high-pressure.md)<BR>
-NEED LUCOST PICTURE
+For more details on how we implemented heavy load testing, [read the full report.](high-pressure.md)<br>
+NEED LOCUST PICTURE

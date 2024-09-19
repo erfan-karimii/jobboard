@@ -6,13 +6,13 @@ copyright: Maintained by <a href="www.linkedin.com/in/iam-erfankarimi">Erfan Kar
 
 nav:
   - Home: index.md
-  - Apps:
-    - Accounting: accounting.md
-    - Job: job.md
-    - analytics: analytics.md
-  - High Pressure: high-pressure.md
-  - Background processing: celery.md
-  - Cash strategies: cash.md
+  # - Apps:
+  - Accounting: accounting.md
+  - Job: job.md
+  - analytics: analytics.md
+  # - High Pressure: high-pressure.md
+  # - Background processing: celery.md
+  # - Cash strategies: cash.md
 
 theme:
   name: mkdocs

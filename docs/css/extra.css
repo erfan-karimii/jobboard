@@ -17,3 +17,11 @@
     margin: 0 0;
 }
 
+h2 {
+    font-size: 40px; /* Adjust size as needed */
+}
+
+/* Custom size for h3 headers */
+h3 {
+    font-size: 25px; /* Adjust size as needed */
+}
