@@ -1,6 +1,6 @@
 # Welcome to Jobboard documentation
 
-<b><a href="https://erfan-karimii.github.io/jobboard/">full documentation</a></b>
+<b><a href="https://erfan-karimii.github.io/jobboard/" target="blank">full documentation</a></b>
 
 ## About
 
