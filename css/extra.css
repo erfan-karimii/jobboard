@@ -1,0 +1,19 @@
+.custom-box {
+    border: 1px solid #007bff;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.custom-box h4 {
+    margin-top: 0;
+}
+
+.custom-box-detail{
+    display: inline-block;
+}
+
+.custom-box-detail p {
+    margin: 0 0;
+}
+
