@@ -9,6 +9,7 @@ nav:
   - Apps:
     - Accounting: accounting.md
     - Job: job.md
+    - analytics: analytics.md
   - High Pressure: high-pressure.md
   - Background processing: celery.md
   - Cash strategies: cash.md
