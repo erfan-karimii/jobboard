@@ -38,31 +38,14 @@
                             <li class="nav-item">
                                 <a href=".." class="nav-link">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Apps</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Accounting</a>
-</li>
-                                    
-<li>
-    <a href="../job/" class="dropdown-item">Job</a>
-</li>
-                                    
-<li>
-    <a href="../analytics/" class="dropdown-item">analytics</a>
-</li>
-                                </ul>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Accounting</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../high-pressure/" class="nav-link">High Pressure</a>
+                                <a href="../job/" class="nav-link">Job</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../celery/" class="nav-link">Background processing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../cash/" class="nav-link">Cash strategies</a>
+                                <a href="../analytics/" class="nav-link">analytics</a>
                             </li>
                         </ul>
 
@@ -161,7 +144,7 @@
 <h1 id="accounting">Accounting</h1>
 <h2 id="authentication-and-authorization">Authentication and Authorization</h2>
 <p>We have chosen JWT (JSON Web Token) as our authentication mechanism due to its strong security features and efficient performance.</p>
-<p>For implementation, we use the Simple JWT package, which provides a convenient and customizable solution for managing tokens.</p>
+<p>For implementation, we use the <strong>Simple JWT</strong> package, which provides a convenient and customizable solution for managing tokens.</p>
 <p>Roles:</p>
 <ul>
 <li>Superuser: Has full access to the admin panel and all information across the platform.</li>
@@ -190,7 +173,13 @@
 </li>
 </ol>
 <h2 id="model">model</h2>
-<p>NEED FURTHER RESEARCH</p>
+<p>Our job application system consists of four core models.</p>
+<h3 id="user">User</h3>
+<p>User is The main model handles authentication and authorization. It inherits from Django’s <code>AbstractBaseUser</code> to allow for customizability and integration. This model uses email as the primary username and includes a foreign key for user roles to facilitate user verification.</p>
+<h3 id="role">Role</h3>
+<p>The Role model essentially stores a single CharField called role, which is used for our custom [authorization] (#authentication-and-authorization)system.  </p>
+<h3 id="userprofile-companyprofile">UserProfile &amp; CompanyProfile</h3>
+<p>We use two separate profile models for easier maintenance and to allow for future extensions based on project needs. The details of these profiles are not critical but help ensure that the project aligns closely with real-world scenarios.</p>
 <h2 id="schema">schema</h2>
 <p><img alt="Screenshot" src="../img/accounting-sc.svg" />
 <a href="../models/">Full Schema</a></p>
@@ -200,8 +189,8 @@
 <h3 id="load-test">load test</h3>
 <p>The most critical endpoint in this section is user sign-up, due to its role in writing data to the database. We focused extensively on this endpoint by simulating the creation of 2 million users with randomly generated emails using Locust.</p>
 <p>Statistics indicate that under heavy load, the endpoint performs with a <strong>99th</strong> percentile latency of <strong>100 ms</strong> and an average latency of 70 ms, which meets our performance expectations.
-For more details on how we implemented heavy load testing, <a href="../high-pressure/">read the full report.</a><BR>
-NEED LUCOST PICTURE</p></div>
+For more details on how we implemented heavy load testing, <a href="../high-pressure/">read the full report.</a><br>
+NEED LOCUST PICTURE</p></div>
             </div>
         </div>
 

@@ -38,31 +38,14 @@
                             <li class="nav-item">
                                 <a href=".." class="nav-link">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Apps</a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../accounting/" class="dropdown-item">Accounting</a>
-</li>
-                                    
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Job</a>
-</li>
-                                    
-<li>
-    <a href="../analytics/" class="dropdown-item">analytics</a>
-</li>
-                                </ul>
+                            <li class="nav-item">
+                                <a href="../accounting/" class="nav-link">Accounting</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../high-pressure/" class="nav-link">High Pressure</a>
+                                <a href="./" class="nav-link active" aria-current="page">Job</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../celery/" class="nav-link">Background processing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../cash/" class="nav-link">Cash strategies</a>
+                                <a href="../analytics/" class="nav-link">analytics</a>
                             </li>
                         </ul>
 
@@ -133,7 +116,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#details-to-be-added-shortly" class="nav-link">Details to be Added Shortly</a>
+            <li class="nav-item" data-bs-level="1"><a href="#job" class="nav-link">job</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#flow-of-jobs" class="nav-link">flow of jobs</a>
               <ul class="nav flex-column">
@@ -154,7 +137,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="details-to-be-added-shortly">Details to be Added Shortly</h1>
+<h1 id="job">job</h1>
 <h2 id="flow-of-jobs">flow of jobs</h2>
 <p>The core concepts of this project are outlined in the app. Our primary goal is to help companies find the best candidates, while enabling job seekers to land their dream jobs. To begin, companies should start by posting their job openings.</p>
 <p>In this project, our goal is to closely simulate the operations of a real startup by working with real-world data. To achieve this, we sourced a dataset from <a href="https://www.kaggle.com">Kaggle</a> containing approximately <strong>1.6 million rows of CSV data</strong>.</p>
@@ -167,7 +150,7 @@
 <p>Our job application system consists of three core models.</p>
 <h3 id="jobcategory">JobCategory</h3>
 <p>A simple model was implemented for saving multiple job categories. This model is crucial, even in the early stages of the project, as it ensures that companies categorize their saved jobs from the start, preventing data inconsistencies in the job table later on.</p>
-<h3 id="job">Job</h3>
+<h3 id="job_1">Job</h3>
 <p>This is the primary model used for saving job listings. Companies are required to provide all critical information necessary to post their job openings.</p>
 <h3 id="jobapply">JobApply</h3>
 <p>This model is used to save job applications from job seekers. Notably, job seekers can currently apply for a job only once and are unable to modify their application details afterward.</p>
