@@ -1,6 +1,7 @@
 *.pyc
 *.log
 .vscode
+docs
 
 # Unit test / coverage reports
 htmlcov/
