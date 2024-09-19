@@ -5,3 +5,4 @@ core/static/** linguist-vendored
 core/static_root/** linguist-vendored
 core/templates/** linguist-vendored
 site/** linguist-vendored
+docs/** linguist-vendored
