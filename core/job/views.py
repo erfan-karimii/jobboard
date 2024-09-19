@@ -76,7 +76,7 @@ class SendJob(APIView):
         serializer.is_valid(raise_exception=True)
         try:
             JobApply.objects.create(job_seeker=profile,**serializer.validated_data)
-            return Response({"detail":"Your Resume Send Succesful"})
+            return Response({"detail":"Your Resume Send Successful"})
         except IntegrityError as e:
             return Response({"error":"you already applied for this job."})
         
