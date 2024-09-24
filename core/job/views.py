@@ -10,7 +10,7 @@ from .models import Job,JobApply
 from .serializers import CreateJobSerializer,ShowDetailJobSerializer,ShowJobSerializers,SendJobSerializer,SerializerCompanySeeJob,SerializerSeeJobSeeker
 from django.db import IntegrityError
 from django.core.paginator import Paginator
-
+from .tasks import job_apply_pdf
 
 class CreateJobView(APIView):
     permission_classes = [IsAuthenticatedCompany]
@@ -101,3 +101,12 @@ class CompanyFindSeeker(APIView):
         job_seeker = JobApply.objects.filter(job__id=pk,job__company=profile)
         response = self.serializer_class(job_seeker,many=True)
         return Response(response.data)
+    
+
+class CreateJobApplyToPdf(APIView):
+    permission_classes = [IsAuthenticatedCompany]
+    def get(self,request,job_id):
+        company_profile = CompanyProfile.objects.get(user=request.user.id)
+        j = job_apply_pdf(comp_id=company_profile.id,job_id=job_id)
+        return Response({"msg":"We Will send pdf for your Email Soon..."})
+        
