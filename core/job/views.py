@@ -107,6 +107,6 @@ class CreateJobApplyToPdf(APIView):
     permission_classes = [IsAuthenticatedCompany]
     def get(self,request,job_id):
         company_profile = CompanyProfile.objects.get(user=request.user.id)
-        j = job_apply_pdf(comp_id=company_profile.id,job_id=job_id)
+        j = job_apply_pdf.delay(comp_id=company_profile.id,job_id=job_id)
         return Response({"msg":"We Will send pdf for your Email Soon..."})
         
