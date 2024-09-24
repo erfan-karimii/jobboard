@@ -10,3 +10,4 @@ djangorestframework-simplejwt
 redis
 django-redis
 fpdf
+matplotlib
