@@ -16,6 +16,7 @@ company_urlpatterns = [
     path('job/<int:id>/',views.CompanyJobDetail.as_view(),name='company-detail-job'),
     path('seejob/',views.CompanySeeJob.as_view(),name='seejob'),
     path('seejob/<int:pk>/',views.CompanyFindSeeker.as_view(),name='seeDetailJob'),
+    path('get_pdf/<int:job_id>/',views.CreateJobApplyToPdf.as_view(),name='create_pdf')
 ]
 
 
