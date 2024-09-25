@@ -31,3 +31,6 @@ todo.txt
 
 # SQLITE
 *.sqlite3
+
+# CELERY
+celerybeat-schedule
