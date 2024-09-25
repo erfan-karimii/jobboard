@@ -1,7 +1,7 @@
 FROM docker.arvancloud.ir/python:3.11.1-slim
 
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
 
 ADD requirements/ requirements/
