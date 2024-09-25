@@ -16,9 +16,9 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 
-app.conf.beat_schedule = {
-    'server-status-every-3-seconds': {
-        'task': 'analytics.tasks.get_server_resource_status',
-        'schedule': 2.0
-    },
-}
+# app.conf.beat_schedule = {
+#     'server-status-every-3-seconds': {
+#         'task': 'analytics.tasks.get_server_resource_status',
+#         'schedule': 2.0
+#     },
+# }
