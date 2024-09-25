@@ -4,7 +4,8 @@ from account.models import CompanyProfile
 from job.models import Job,JobApply
 import time
 
-@app.task()
+
+@shared_task
 def job_apply_pdf(comp_id,job_id):
     time.sleep(3)
     company = CompanyProfile.objects.get(id=comp_id)
