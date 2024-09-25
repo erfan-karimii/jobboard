@@ -20,7 +20,7 @@ LOCAL_APPS = [
     "account.apps.AccountConfig","load_test","job.apps.JobConfig","analytics.apps.AnalyticsConfig"
 ]
 
-THIRD_PARTY_APPS = ["rest_framework","drf_spectacular",'rest_framework_simplejwt']
+THIRD_PARTY_APPS = ["rest_framework","drf_spectacular",'rest_framework_simplejwt','django_celery_beat',]
 
 
 INSTALLED_APPS = [

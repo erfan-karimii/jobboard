@@ -55,17 +55,41 @@ services:
     environment:
       - ServerOptions__HostName=smtp4dev
   
-  celery:
+  celery-worker:
     build:
       context: .
       dockerfile: docker/dev.Dockerfile
     command: celery -A core worker --loglevel=info
     volumes:
       - ./core/:/app
+      - celerylog-volume:/var/lib/celery-log
     depends_on:
       - redis
-    restart: on-failure
 
+    restart: on-failure
+  
+  celery-flower:
+    build:
+      context: .
+      dockerfile: docker/dev.Dockerfile
+    command: celery -A core flower --port=5555 --loglevel=info
+    ports:
+      - '5555:5555'
+    volumes:
+      - ./core/:/app
+    depends_on:
+      - redis
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: docker/dev.Dockerfile
+    command: celery -A core beat --loglevel=info
+    volumes:
+      - ./core/:/app
+    depends_on:
+      - redis
+    
   redis:
     container_name: redis3
     image: docker.arvancloud.ir/redis:bookworm
@@ -79,3 +103,4 @@ volumes:
   postgres-volume:
   smtp4dev-data:
   redis_data:
+  celerylog-volume:

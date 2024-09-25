@@ -11,3 +11,6 @@ redis
 django-redis
 fpdf
 matplotlib
+flower
+psutil
+django-celery-beat
