@@ -164,3 +164,4 @@ MEDIA_URL = '/media/'
 CELERY_BROKER_URL = "redis://redis3:6379/1"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP  = True
 CELERY_RESULT_BACKEND = "redis://redis3:6379/2"
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
